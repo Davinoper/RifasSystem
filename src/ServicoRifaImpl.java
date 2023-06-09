@@ -46,13 +46,17 @@ class ServicoRifaImpl extends UnicastRemoteObject implements IServicoRifa {
         }
     }
 
-    private Sorteio achaSorteio(String nomeSorteio) throws RemoteException{
+    public Sorteio achaSorteio(String nomeSorteio) throws RemoteException{
         for(Sorteio sorteio : sorteios){
             if(sorteio.getName().equals(nomeSorteio)){
                 return sorteio;
             }
         }
         return null;
+    }
+
+    public List<Sorteio> verSorteiosDisponiveis(){
+        return this.sorteios;
     }
 
     public void infoSorteio(String nomeSorteio) throws RemoteException{
