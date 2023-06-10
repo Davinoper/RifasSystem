@@ -1,3 +1,6 @@
+import RMI.IServicoRifa;
+import model.Sorteio;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -22,8 +25,8 @@ public class ServidorSocketRifa {
             ServerSocket serverSocket = new ServerSocket(port);
             System.out.println("Servidor iniciado na porta " + port);
 
-            Thread clientThread = new Thread(new ServerHandler());
-            clientThread.start();
+            Thread serverThread = new Thread(new ServerHandler());
+            serverThread.start();
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
@@ -36,7 +39,7 @@ public class ServidorSocketRifa {
         }
     }
 
-    public void broadcast(String message) {
+    public void enviarMensagemParaTodos(String message) {
         for (Socket clientSocket : clientSockets) {
             try {
                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -49,9 +52,7 @@ public class ServidorSocketRifa {
 
     private class ServerHandler implements Runnable {
 
-        public ServerHandler() {
-
-        }
+        public ServerHandler() {}
 
         @Override
         public void run() {
@@ -61,7 +62,7 @@ public class ServidorSocketRifa {
                 IServicoRifa servidorRifa = (IServicoRifa) registry.lookup("ServicoRifa");
 
                 while (true) {
-                    System.out.println("Sorteio: 1 - criar | 2 - realizar sorteio | 3 - informação sorteio");
+                    System.out.println("Rifa: 1 - criar | 2 - realizar sorteio | 3 - informação sorteio");
 
                     int aux = scan.nextInt();
 
@@ -76,7 +77,7 @@ public class ServidorSocketRifa {
                             String sorteio = scan.next();
                             servidorRifa.realizarSorteio(sorteio);
                             Sorteio sorteado = servidorRifa.achaSorteio(sorteio);
-                            broadcast(sorteado.getVencedor() + " Foi o vencedor da rifa " + sorteado.getName());
+                            enviarMensagemParaTodos(sorteado.getVencedor() + " Foi o vencedor da rifa " + sorteado.getName());
                             break;
                         case 3:
                             System.out.println("Nome do sorteio:");

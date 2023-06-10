@@ -1,3 +1,7 @@
+import RMI.IServicoRifa;
+import model.Cliente;
+import model.Sorteio;
+
 import java.io.*;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
@@ -8,19 +12,18 @@ import java.util.Scanner;
 class ClienteRifa {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        String serverAddress = "localhost";
-        int serverPort = 12345;
+        String enderecoServer = "localhost";
+        int portaServer = 12345;
 
         try {
-
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             IServicoRifa servicoRifa = (IServicoRifa) registry.lookup("ServicoRifa");
 
-            Socket socket = new Socket(serverAddress, serverPort);
-            System.out.println("Conectado ao servidor em " + serverAddress + ":" + serverPort);
+            Socket socket = new Socket(enderecoServer, portaServer);
+            System.out.println("Conectado ao servidor em " + enderecoServer + ":" + portaServer);
 
-            Thread receiveThread = new Thread(new ClienteHandler(socket));
-            receiveThread.start();
+            Thread clientThread = new Thread(new ClienteHandler(socket));
+            clientThread.start();
 
             System.out.println("Digite seu nome: ");
             Cliente cliente = new Cliente(scan.next());
@@ -59,7 +62,6 @@ class ClienteRifa {
 
         @Override
         public void run() {
-            Scanner scan = new Scanner(System.in);
             try{
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String message;

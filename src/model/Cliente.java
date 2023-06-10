@@ -1,6 +1,8 @@
+package model;
+
 import java.io.Serializable;
 
-class Cliente implements Serializable {
+public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
     private String nome;
 

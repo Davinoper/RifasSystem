@@ -1,9 +1,14 @@
+package RMI;
+
+import model.Cliente;
+import model.Sorteio;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-class ServicoRifaImpl extends UnicastRemoteObject implements IServicoRifa {
+public class ServicoRifaImpl extends UnicastRemoteObject implements IServicoRifa {
     private static final long serialVersionUID = 1L;
     private List<Cliente> clientes;
     private List<Sorteio> sorteios;

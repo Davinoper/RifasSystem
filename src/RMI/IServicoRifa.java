@@ -1,8 +1,13 @@
+package RMI;
+
+import model.Cliente;
+import model.Sorteio;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-interface IServicoRifa extends Remote {
+public interface IServicoRifa extends Remote {
     void adquirirCartela(Cliente cliente, String nomeSorteio) throws RemoteException, InterruptedException;
     void realizarSorteio(String nomeSorteio) throws RemoteException;
     void criarSorteio(String nome) throws RemoteException;
