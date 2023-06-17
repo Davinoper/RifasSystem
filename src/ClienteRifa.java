@@ -42,7 +42,13 @@ class ClienteRifa {
                     case 2:
                         System.out.println("Digite o nome da rifa a participar: ");
                         String nomeSorteio = scan.next();
-                        servicoRifa.adquirirCartela(cliente, nomeSorteio);
+                        try{
+                            servicoRifa.adquirirCartela(cliente, nomeSorteio);
+                        }catch (NullPointerException e){
+                            System.out.println(" ");
+                            System.out.println("!! A rifa não existe. !!");
+                            System.out.println(" ");
+                        }
                         break;
                 }
             }

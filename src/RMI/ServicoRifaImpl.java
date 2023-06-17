@@ -10,11 +10,9 @@ import java.util.List;
 
 public class ServicoRifaImpl extends UnicastRemoteObject implements IServicoRifa {
     private static final long serialVersionUID = 1L;
-    private List<Cliente> clientes;
     private List<Sorteio> sorteios;
 
     public ServicoRifaImpl() throws RemoteException {
-        clientes = new ArrayList<>();
         sorteios = new ArrayList<>();
     }
 
@@ -27,7 +25,7 @@ public class ServicoRifaImpl extends UnicastRemoteObject implements IServicoRifa
         Sorteio sorteio = achaSorteio(nomeSorteio);
 
         if (!sorteio.isSorteioRealizado()) {
-            clientes.add(cliente);
+            sorteio.getRifas().add(cliente);
             System.out.println("Cliente " + cliente.getNome() + " adquiriu uma rifa para " + sorteio.getName());
         } else {
             System.out.println("Desculpe, o sorteio já foi realizado.");
@@ -37,9 +35,9 @@ public class ServicoRifaImpl extends UnicastRemoteObject implements IServicoRifa
     public void realizarSorteio(String nomeSorteio) throws RemoteException {
         Sorteio sorteio = achaSorteio(nomeSorteio);
         if (!sorteio.isSorteioRealizado()) {
-            if (clientes.size() > 0) {
-                int indiceVencedor = (int) (Math.random() * clientes.size());
-                Cliente vencedor = clientes.get(indiceVencedor);
+            if (sorteio.getRifas().size() > 0) {
+                int indiceVencedor = (int) (Math.random() * sorteio.getRifas().size());
+                Cliente vencedor = sorteio.getRifas().get(indiceVencedor);
                 System.out.println("O vencedor da rifa é: " + vencedor.getNome());
                 sorteio.setSorteioRealizado(true);
                 sorteio.setVencedor(vencedor.getNome());
